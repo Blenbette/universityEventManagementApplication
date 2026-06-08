@@ -3,8 +3,8 @@ package com.example.universityeventmanagementapplication.Models;
 public class User {
 
     private int userId;
-    private String name;
-    private String email;
+    private String username;
+    private static String email;
     private String studentId;
     private String password;
     private String role;
@@ -15,11 +15,14 @@ public class User {
     public User(int userId, String name, String email,
                 String studentId, String password, String role) {
         this.userId = userId;
-        this.name = name;
+        this.username = name;
         this.email = email;
         this.studentId = studentId;
         this.password = password;
         this.role = role;
+    }
+
+    public User(String username, String password) {
     }
 
     // Getters and Setters
@@ -33,17 +36,16 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }

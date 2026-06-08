@@ -1,5 +1,7 @@
 package com.example.universityeventmanagementapplication.activities;
+import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
 import com.example.universityeventmanagementapplication.Models.User;
 import com.example.universityeventmanagementapplication.R;
 
@@ -20,10 +21,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     DatabaseHelper dbHelper;
 
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_register);
 
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);

@@ -1,15 +1,21 @@
 package com.example.universityeventmanagementapplication.activities;
 
+
+
+import static com.example.universityeventmanagementapplication.R.*;
+
+import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.example.universityeventmanagementapplication.activities.AdminDashboardActivity;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
 import com.example.universityeventmanagementapplication.Models.User;
 import com.example.universityeventmanagementapplication.R;
 
@@ -40,43 +46,92 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Validation
                 if (e.isEmpty() || p.isEmpty()) {
-                    Toast.makeText(LoginActivity.this,
+
+                    Toast.makeText(
+                            LoginActivity.this,
                             "Please enter email and password",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT
+                    ).show();
+
                     return;
                 }
 
-                // Check user in database
-                User user = dbHelper.loginUser(e, p);
+                // Login user
+                User user = dbHelper    .loginUser(e, p);
 
                 if (user != null) {
 
-                    Toast.makeText(LoginActivity.this,
+                    Toast.makeText(
+                            LoginActivity.this,
                             "Login Successful",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT
+                    ).show();
 
-                    // ROLE BASED NAVIGATION
+                    // Admin Login
                     if (user.getRole().equalsIgnoreCase("admin")) {
 
-                        Intent intent = new Intent(LoginActivity.this,
-                                AdminDashboardActivity.class);
+                        Intent intent =
+                                new Intent(
+                                        LoginActivity.this,
+                                        AdminDashboardActivity.class
+                                );
+
+                        intent.putExtra(
+                                "userId",
+                                user.getUserId()
+                        );
+
+                        intent.putExtra(
+                                "role",
+                                user.getRole()
+                        );
+
                         startActivity(intent);
                         finish();
 
-                    } else {
+                    }
+                    // Student Login
+                    else {
 
-                        Intent intent = new Intent(LoginActivity.this,
-                                StudentDashboardActivity.class);
+                        Intent intent =
+                                new Intent(
+                                        LoginActivity.this,
+                                        StudentDashboardActivity.class
+                                );
+
+                        intent.putExtra(
+                                "userId",
+                                user.getUserId()
+                        );
+
+                        intent.putExtra(
+                                "role",
+                                user.getRole()
+                        );
+
                         startActivity(intent);
                         finish();
                     }
 
                 } else {
-                    Toast.makeText(LoginActivity.this,
+
+                    Toast.makeText(
+                            LoginActivity.this,
                             "Invalid email or password",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
+        });
+        Button registerBtn = findViewById(R.id.registerBtn);
+
+
+        registerBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    LoginActivity.this,
+                    RegisterActivity.class
+            );
+            startActivity(intent);
         });
     }
 }

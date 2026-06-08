@@ -2,34 +2,21 @@ package com.example.universityeventmanagementapplication.Models;
 
 public class Event {
 
-    private int eventId;
+    private int id;
     private String title;
     private String date;
-    private String time;
+    private String time;         // Added to fix setTime() error
     private String location;
-    private String description;
+    private String description;  // Added to fix setDescription() error
 
-    public Event() {
+    public Event() {}
+
+    public int getId() {
+        return id;
     }
 
-    public Event(int eventId, String title, String date,
-                 String time, String location, String description) {
-        this.eventId = eventId;
-        this.title = title;
-        this.date = date;
-        this.time = time;
-        this.location = location;
-        this.description = description;
-    }
-
-    // Getters and Setters
-
-    public int getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

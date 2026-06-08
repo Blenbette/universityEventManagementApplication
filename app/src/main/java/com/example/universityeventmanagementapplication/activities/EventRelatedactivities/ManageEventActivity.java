@@ -7,8 +7,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
+
 import com.example.universityeventmanagementapplication.Models.Event;
 import com.example.universityeventmanagementapplication.R;
 

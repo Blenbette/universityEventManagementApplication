@@ -2,11 +2,7 @@ package com.example.universityeventmanagementapplication.activities.EventRelated
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.universityeventmanagementapplication.R;
 
@@ -15,8 +11,6 @@ public class MyRegisteredEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_my_registered_event);
-
     }
 }

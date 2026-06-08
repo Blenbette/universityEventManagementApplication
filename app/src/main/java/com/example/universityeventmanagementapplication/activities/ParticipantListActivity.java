@@ -1,4 +1,5 @@
 package com.example.universityeventmanagementapplication.activities;
+import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
 
 import android.os.Bundle;
 
@@ -8,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.universityeventmanagementapplication.R;
 import com.example.universityeventmanagementapplication.adapters.ParticipantAdapter;
-import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
 import com.example.universityeventmanagementapplication.Models.User;
 
 import java.util.ArrayList;

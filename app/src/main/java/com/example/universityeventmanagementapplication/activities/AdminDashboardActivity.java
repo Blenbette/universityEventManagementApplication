@@ -1,49 +1,86 @@
-package com.example.universityeventmanagementapplication.activities;
 
+package com.example.universityeventmanagementapplication.activities;
+import com.example.universityeventmanagementapplication.R;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-
+import android.widget.*;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.universityeventmanagementapplication.R;
-import com.example.universityeventmanagementapplication.activities.EventRelatedactivities.EventListenActivity;
-import com.example.universityeventmanagementapplication.activities.EventRelatedactivities.ManageEventActivity;
+import com.example.universityeventmanagementapplication.DataBase.DatabaseHelper;
+import com.example.universityeventmanagementapplication.Models.Event;
+import com.example.universityeventmanagementapplication.activities.EventRelatedactivities.AddEventActivity;
+
+import java.util.ArrayList;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    Button createEvent, manageEvents, participants, logout;
+    Button btnAddEvent;
+    ListView eventListView;
+
+    DatabaseHelper db;
+    ArrayList<Event> eventList;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> eventTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_dashboard);
+        setContentView(R            .layout.activity_admin_dashboard);
 
-        createEvent = findViewById(R.id.btnCreateEvent);
-        manageEvents = findViewById(R.id.btnManageEvents);
-        participants = findViewById(R.id.btnViewParticipants);
-        logout = findViewById(R.id.btnLogout);
+        btnAddEvent = findViewById(R.id.btnAddEvent);
+        eventListView = findViewById(R.id.eventListView);
 
-        // Create Event
-        createEvent.setOnClickListener(v -> {
-            startActivity(new Intent(this, ManageEventActivity.class));
+        db = new DatabaseHelper(this);
+
+        loadEvents();
+
+        btnAddEvent.setOnClickListener(v ->
+                startActivity(new Intent(this, AddEventActivity.class))
+        );
+
+        eventListView.setOnItemClickListener((parent, view, position, id) -> {
+            Event selectedEvent = eventList.get(position);
+            showOptionsDialog(selectedEvent);
         });
+    }
 
-        // Manage Events (list + edit/delete)
-        manageEvents.setOnClickListener(v -> {
-            startActivity(new Intent(this, EventListenActivity.class));
-        });
+    private void loadEvents() {
+        eventList = db.getAllEvents();
+        eventTitles = new ArrayList<>();
 
-        // View Participants
-        participants.setOnClickListener(v -> {
-            startActivity(new Intent(this, ParticipantListActivity.class));
-        });
+        for (Event e : eventList) {
+            eventTitles.add(e.getTitle() + " - " + e.getDate());
+        }
 
-        // Logout
-        logout.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        });
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, eventTitles);
+        eventListView.setAdapter(adapter);
+    }
+
+    private void showOptionsDialog(Event event) {
+        String[] options = {"Edit", "Delete"};
+
+        new AlertDialog.Builder(this)
+                .setTitle("Choose Option")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        Intent intent = new Intent(this, AddEventActivity.class);
+                        intent.putExtra("eventId", event.getId());
+                        intent.putExtra("title", event.getTitle());
+                        intent.putExtra("date", event.getDate());
+                        startActivity(intent);
+                    } else {
+                        db.deleteEvent(event.getId());
+                        Toast.makeText(this, "Event Deleted", Toast.LENGTH_SHORT).show();
+                        loadEvents();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadEvents();
     }
 }
